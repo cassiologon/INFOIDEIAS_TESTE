@@ -15,16 +15,8 @@ class Funcoes
 
      * */
     public function SeculoAno(int $ano): int {
-        
+        return (int) ceil($ano / 100);
     }
-
-    
-	
-	
-	
-	
-	
-	
 	
 	/*
 
@@ -37,17 +29,27 @@ class Funcoes
 
      * */
     public function PrimoAnterior(int $numero): int {
+        $primo = 0;
+        for ($i = $numero; $i > 0; $i--) {
+            if ($this->Primo($i)) {
+                $primo = $i;
+                break;
+            }
+        }
+        return $primo;
         
     }
 
-
-
-
-
-
-
-
-
+    private function Primo(int $numero): bool {
+        $primo = true;
+        for ($i = 2; $i < $numero; $i++) {
+            if ($numero % $i == 0) {
+                $primo = false;
+                break;
+            }
+        }
+        return $primo;
+    }
 
     /*
 
@@ -66,16 +68,22 @@ class Funcoes
 
      * */
     public function SegundoMaior(array $arr): int {
+        $maior = 0;
+        $segundoMaior = 0;
+        foreach ($arr as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                if ($value2 > $maior) {
+                    $segundoMaior = $maior;
+                    $maior = $value2;
+                } else if ($value2 > $segundoMaior) {
+                    $segundoMaior = $value2;
+                }
+            }
+        }
+        return $segundoMaior;
         
     }
 	
-	
-	
-	
-	
-	
-	
-
     /*
    Desenvolva uma função que receba como parâmetro um array de números inteiros e responda com TRUE or FALSE se é possível obter uma sequencia crescente removendo apenas um elemento do array.
 
@@ -107,6 +115,27 @@ class Funcoes
      * */
     
 	public function SequenciaCrescente(array $arr): boolean {
+        $crescente = true;
+        $removido = false;
+        $anterior = $arr[0];
+        for ($i = 1; $i < count($arr); $i++) {
+            if ($arr[$i] < $anterior) {
+                if ($removido) {
+                    $crescente = false;
+                    break;
+                } else {
+                    $removido = true;
+                    if ($i > 1) {
+                        if ($arr[$i] < $arr[$i - 2]) {
+                            $crescente = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            $anterior = $arr[$i];
+        }
+        return $crescente;
         
     }
 }
